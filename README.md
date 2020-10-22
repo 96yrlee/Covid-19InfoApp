@@ -16,21 +16,49 @@ At first, only the updated daily total and daily new cases will be provided for 
 
 ### Coursera Capstone Requirements
 
-**Webservice API:** [Link to API. ](http://disease.sh/v3/covid-19/) [Link to GitHub. ](https://github.com/disease-sh/API) The webservice API is disease.sh's Covid19 specific API. It provides an HTTP protocol and provides a json output; no authentication key is required. They use a variety of sources, including Worldometer, John Hopkins University, and several countries' own government provided data. There are also other data, but they are not of interest for this project.
+**Webservice API:** 
+[Link to API. ](http://disease.sh/v3/covid-19/) [Link to GitHub. ](https://github.com/disease-sh/API) 
+The webservice API is disease.sh's Covid19 specific API. It provides an HTTP protocol and provides a json output; no authentication key is required. They use a variety of sources, including Worldometer, John Hopkins University, and several countries' own government provided data. There are also other data, but they are not of interest for this project.
 
-**Activities:** The main activity will show today's global data (i.e. total and new cases). Ideally, it will also offer a space to see a certain country/province's data.
+**Activities:** The main activity will show today's global data (i.e. total and new cases); Ideally, it will also offer a space to see a certain country/province's data. Global/country boxes should be clickable and lead to the 3rd activity to show more options/details.
 
-**Service(s):** It will handle requesting and downloading the API data via Retrofit, and then perform various data calculation on them (ex. figuring out new cases for a certain date requires subtracting the total for the date and the previous day) before sending the data to the activity that requested it. 
-If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background. While IntentService was taught, it has been depreciated for JobIntentService and so it will be used.
+The second activity let you search a specific country or global, and lead to the 3rd activity. 
 
-**BroadcastReceiver:** They will be used to start the service - no other actions should be performed. One will listen for a custom event requesting an update, and start the service involving the API. Another will check for for a custom event to save data to the database and start that event.
+The last (3rd) activity will show the details of a specific category you searched or clicked from main; categories being the global data, a country's data or a province/state's data. The country form of this activity, if state/province data is avalible, should show the summaries of each after the main data and be clickable to refresh the 3rd activity and show that specific state/province. There should be option to search for the total & daily case count for a specific date and to search any saved/past searched data. Here, total & new cases for the day but also the past 7 days, past 30, and since the beginnin should ideally be shown in graphs - otherwise omit.
 
-**ContentProvider:** To provide information to outside of the app, the content provider will be implemented. HOWEVER, room will be the primary database wrapper.
 
+**Service(s):** It will handle requesting, downloading, and saving the data via API/Retrofit or the the database/Room, and then perform various data calculation on them (ex. figuring out new cases for a certain date requires subtracting the total for the date and the previous day) before sending the data to the activity or service that requested it. 
+
+If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background. 
+
+While IntentService was taught, it has been depreciated for JobIntentService which will be used.
+
+**BroadcastReceiver:** They will be used to start the service - no other actions should be performed. One will listen for a custom event requesting data, and start the service involving the API. 
+
+**ContentProvider:** To provide information to outside of the app, the content provider will be implemented. HOWEVER, room will be the primary database wrapper. The columns are:
+- date
+- country
+- province/state
+- confirmed_ttl
+- deaths_ttl
+- recovered_ttl
+- confirmed_new
+- deaths_new
+- recovered_new
 
 ### Further App Details
 
-**Other Android Components / 3rd Party Add-ons:** As already mentioned, Retrofit will be used to handle the API webservice, and Room will be used to abstract the SQLite databse. Plus, LiveData + Viewmodel + ListAdator Room architecture will be used. It is true that, as a result, the services, receivers and content provider are not required - however, they provide some additional benefits, are needed for the course, and content provider has its own unique use. While Room + retrofit may complicate, they are common and useful abstractions and thus will be used.
+**Other Android Components / 3rd Party Add-ons:** 
+As already mentioned, Retrofit will be used to handle the API webservice, and Room will be used to abstract the SQLite databse. Plus, LiveData + Viewmodel + ListAdator Room architecture will be used. 
+
+It is true that, as a result, the services, receivers and content provider are not required - however, they provide some additional benefits, are needed for the course, and content provider has its own unique use. While Room + retrofit may complicate/add work, they are common and useful abstractions and thus will be used for learning.
+
+**Background details:**
+
+All data called from the API will be saved to the database. This information should be made available to view and should be called instead of the API if it's already saved.
+
+The exact details on how the services and Breceivers will be used is still shaky. So that detail may be changed.
+
 
 ## Credits & Licensing
 
