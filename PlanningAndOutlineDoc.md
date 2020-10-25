@@ -1,6 +1,10 @@
 # A Document to Plan and Create the App Outline in
 A more rough ver of the READ ME, essentially
 
+# General Flow / Idea of How it All Works Together
+
+< insert the flowchart image here later >
+
 # Componenets & Files
 
 ## Activities
@@ -10,10 +14,9 @@ A more rough ver of the READ ME, essentially
 **Function**
 * Show, for now, just the Global Stats of the day
 * call BR asking for global data and to GIVE IT BACK
-  * BR sends over to CovidDataService, gets info, sends it back to MainActivity
+  * BR sends over to CovidDataService, gets info, does nothing AKA we stay in mainActivity
 * now, using a card.class, make the UI and update the view
 * do this all in onCreate for now
-
 * **ALSO** create a button to start SearchActivity
   * if using the live list, consider making 2 buttons, one for country and one for province
 
@@ -37,8 +40,8 @@ Plus, JH's historical doesn't have today's numbers.
     
 **v1:** Just call the API, in this case send a broadcast to activate the service for us
 * The broadcast receives the name, sends it to the service
-  * the service takes it and makes a GET out of it, sends result to BR
-  * BR gets data and now sends it to the SpecifiedZoneActivity to start and use it
+  * the service takes it and makes a GET out of it, sends result_complete to BR
+  * BR complete notice and now opens SpecifiedZoneActivity
   * if no country matches however, BR will pop toast saying an error occured
 
 
@@ -74,29 +77,12 @@ thus you get EVERY country no matter what. Need to figure out how to filter that
 
 * [to add a get back button](https://codinginflow.com/tutorials/android/up-button)
 
-* Will need to check whether the data has been already downloaded from the API
- * in this case, will need to call from the database
- * ELSE call the api
-* Will need to check only for the Zone and the date
-  * later on, if i decide to get past info or make timelines, same deal but more calls so hopefully won't lag or crash
-
-
 
 
 
 ## Service
-
-### CovidDataService.java
-
-**Function**
-* something calls and ask for the Covid Info with query details (i.e. zone + date)
-* CovidDataService checks whether the SQLiteDB has it already or needs to GET from API
-  * If SQLiteDB has it, get it, do whatever work, 
-  * If API needs to be GET called, do it, save it into the SQLiteDB, do the work
-* both will then send it back to whatever called for it
-
 **extends JobIntentService**
-****
+
 * Oreo onwards, best to use JobService or this 
 * [this tutorials show the methods I need to implement](https://codinginflow.com/tutorials/android/jobintentservice)
   * Override onHandleWork() and extract the intent, is auto background thread
@@ -104,25 +90,56 @@ thus you get EVERY country no matter what. Need to figure out how to filter that
   * make an intent factory maker
   * make an 'factory' enqueueWork(context context, Intent work){ enqueueWork(context, servicename.this, jobIdInt, work); }
     * call this to start the service in whatever, probably the BR
-
+ 
 * Technically Retrofit has some async built in, and LiveData handles the rest, 
 * and Room also does async within itself
 * but since I need to process some of the information before displaying it
 * and also implement a content provider
 
+### CovidApiDownloadService.java
+**Function**
+* something calls and ask for the Covid Info with query details (i.e. zone + date)
+* CovidDataService checks whether the SQLiteDB has it already or needs to GET from API
+* Will need to check only for the Zone and the date
+  * later on, if i decide to get past info or make timelines, same deal but more calls so hopefully won't lag or crash
+  
+**API required? then**
+* GET called
+* do any data crunching
+* send data to activity 
+ * save data into the SQLiteDB via room
+
+
+**only SQL required? then**
+* get data from SQLiteDB via room
 
 ## Broadcast Receiver
 
-### ServiceChooserReceiver
+### StartApiReceiver
+**Function**
+* starts CovidApiDownloadService
+* based on what call it (or tags) it will either stay at the current acitivty or start another one
+ * liveData and view model will auto update the UI for me
+
+
 
 **selects which service it needs to call**
-* API if it needs new data
-* ROOM if it already called the API & saved it
+
 
 ## Content Provider
 
+
+
+
 ## Room
 
+Room (model): Entity is a table, and DAO communicated w/ SQLite
+ViewModel: Connects to Acitivty/Fragment, holds User Interactions
+* LiveData: activity observes it and auto updates changes
+Repository (model): Manages Room and the API
+
+### CovidRepository.java
+Connects to both ROOM and C
 
 
 ## Webserive API / Retrofit
@@ -189,7 +206,8 @@ call.enqueue(new Callback<List<Post>>() {
     //update the textview if in activity
   )
   onFailure(
-    textViewResult.setText(t.getMessage());
+    //textViewResult.setText(t.getMessage());
+    // send a broadcast saying it failed
   )
   
 ```
