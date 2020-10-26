@@ -27,13 +27,17 @@ The second activity let you search a specific country or global, and lead to the
 The last (3rd) activity will show the details of a specific category you searched or clicked from main; categories being the global data, a country's data or a province/state's data. The country form of this activity, if state/province data is avalible, should show the summaries of each after the main data and be clickable to refresh the 3rd activity and show that specific state/province. There should be option to search for the total & daily case count for a specific date and to search any saved/past searched data. Here, total & new cases for the day but also the past 7 days, past 30, and since the beginnin should ideally be shown in graphs - otherwise omit.
 
 
-**Service(s):** It will handle requesting, downloading, and saving the data via API/Retrofit or the the database/Room, and then perform various data calculation on them (ex. figuring out new cases for a certain date requires subtracting the total for the date and the previous day) before sending the data to the activity or service that requested it. 
+**Service(s):** ~~It will handle requesting, downloading, and saving the data via API/Retrofit or the the database/Room, and then perform various data calculation on them (ex. figuring out new cases for a certain date requires subtracting the total for the date and the previous day) before sending the data to the activity or service that requested it.~~
 
-If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background. 
+~~If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background. ~~
 
 While IntentService was taught, it has been depreciated for JobIntentService which will be used.
 
-**BroadcastReceiver:** They will be used to start the service - no other actions should be performed. One will listen for a custom event requesting data, and start the service involving the API. 
+EDIT: v02 - this will be used for a notification/alarm to open the app
+
+**BroadcastReceiver:** They will be used to start the service ~~- no other actions should be performed. One will listen for a custom event requesting data, and start the service involving the API. ~~
+
+EDIT: v02 - this will be used for a notification/alarm to open the app. more specifically, to start the service that will notify + to create the alarm
 
 **ContentProvider:** To provide information to outside of the app, the content provider will be implemented. HOWEVER, room will be the primary database wrapper. The columns are:
 - date
@@ -64,3 +68,6 @@ The exact details on how the services and Breceivers will be used is still shaky
 
 The MIT license is used - if you want to use this app or improve it, go ahead.
 Credits to disease.sh for the free API, which provides all the data.
+
+Note: Google and Apple both forbid individually made covid-19 apps, and rightfully so - profitteerin, misinformation, etc are legit worries. Best to leave that to official Orgs.
+So, if for some reason you actually want to use this, you'll need to get android studio to build and upload the app.
