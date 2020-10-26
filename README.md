@@ -29,13 +29,13 @@ The last (3rd) activity will show the details of a specific category you searche
 
 **Service(s):** ~~It will handle requesting, downloading, and saving the data via API/Retrofit or the the database/Room, and then perform various data calculation on them (ex. figuring out new cases for a certain date requires subtracting the total for the date and the previous day) before sending the data to the activity or service that requested it.~~
 
-~~If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background. ~~
+~~If graphing is possible, they will be done via a service. Another service will also be used to save the data to the database - while Room + LiveData should be async, this will just ensure it is done in the background.~~
 
 While IntentService was taught, it has been depreciated for JobIntentService which will be used.
 
 EDIT: v02 - this will be used for a notification/alarm to open the app
 
-**BroadcastReceiver:** They will be used to start the service ~~- no other actions should be performed. One will listen for a custom event requesting data, and start the service involving the API. ~~
+**BroadcastReceiver:** They will be used to start the service ~~no other actions should be performed. One will listen for a custom event requesting data, and start the service involving the API.~~
 
 EDIT: v02 - this will be used for a notification/alarm to open the app. more specifically, to start the service that will notify + to create the alarm
 
@@ -61,13 +61,13 @@ It is true that, as a result, the services, receivers and content provider are n
 
 All data called from the API will be saved to the database. This information should be made available to view and should be called instead of the API if it's already saved.
 
-The exact details on how the services and Breceivers will be used is still shaky. So that detail may be changed.
+~~The exact details on how the services and Breceivers will be used is still shaky. So that detail may be changed.~~ EDIT: It has changed, see above
 
 
 ## Credits & Licensing
 
 The MIT license is used - if you want to use this app or improve it, go ahead.
-Credits to disease.sh for the free API, which provides all the data.
+Credits to disease.sh for the free API, which provides the webservice, and to John Hopkins and WHO for the actually data, and the api's other sources.
 
 Note: Google and Apple both forbid individually made covid-19 apps, and rightfully so - profitteerin, misinformation, etc are legit worries. Best to leave that to official Orgs.
 So, if for some reason you actually want to use this, you'll need to get android studio to build and upload the app.
