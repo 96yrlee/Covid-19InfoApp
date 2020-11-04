@@ -15,9 +15,28 @@ so far it all works, will try to add stuff into database to see if it works prop
   * FIXED!
   
 Let's add onItemClickListener to open up a new activity on the info card
+* got it to click and start a new activity ok
+* NEXT somehow send over the data needed to create a card, but that also requires viewmodel etc so AFTER SEARCH
 
+Update to LiveAdaptor!
+* Codelabs updated to it in their github, but their tutorial + coding flow uses adaptor.dkjsahdak
+  * coding flow changed added a way to refactor to liveAdaptor! so I will too
+* BENEFIT: no longer have to use notifyDataHasChanged
+* CON: it is tied directly to a single entity
+  * multiple adaptors?
+  * change globalEntiry to be more generic + thus hold global, countries + states all in one table? BUT if I decide to use JH's for the historical I'll STILL have to make a new table just for modularity
+* REFACTORED: MADE GLOBAL INTO MORE GENERIC ZONE + REMOVED PERMILLION INTERNAL COLUMNS also refactored the retrofit related files
+  * if i ever get to getting historical data from JH, I'll deal with the seperate adaptor then
 
 Now to see how to put Retrofit + room together
+* all examples say to make a retrofit builder class in another file
+* then when creating the retrofit API interface, to call apon this builder
+  * this should be done inside repository/viewholder?
+  
+LOGIC for daily, for each zone (country or global):
+1) call retrofit get for today's stats
+2) after getting the response data, save it into database
+3) ensure viewholder pulls from database
 
 
 
