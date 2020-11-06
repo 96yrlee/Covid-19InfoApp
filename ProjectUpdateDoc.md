@@ -1,6 +1,28 @@
 # Project Update & Current Status
 Here I will document what has been created/done.
 
+## Figuring Out LocalDate and LocalTime| 2020 - 11 - 04 and 05 / Wed. and Thurs Nov. 3rd/4th, 2020
+I got sucked into the elections, so I didn't work on this as much as I should have.
+
+* Figuring out how to use Java.time library took longer,
+  * Desugared Java 8+ to use the library in sdk <26
+  * learned about DateTimeFormatter and duration
+* first, check whether it is the first call of the day
+  * if YES (new day), delete the entire database
+  * call webservice and insert the data into it with the appriate date and time columns
+  * to not go through the waste of a time check, even tho it will auto pass, just return here
+  * if NO, no action, check time as below
+* to check is zone has been updated in the last 2 hr period, will store long timeStamp in database, which records the time in minutes AKA 7am = 7hr * 60mins = 420
+  * method will get current time, subtract 2 hrs, then convert to minutes -> this is the maximum update time point, everything older or smaller is >2hr ago
+  * query will search for both the zoneName and that the stored timestamp is "younger" or larger than the "maximum update time point"
+  * if query pulls null, or boolean false, then delete the row with the right name + date, pull API webservice and insert the data OR do update (no deletes needed) 
+  * if it exists, then skip
+* if both date and time is skipped AKA SAME DAY and LAST UPDATE <2HRS AGO
+  * a normal room query for data is fine
+* if either date or time is checked and thus webservice is called
+  * since they both updated the room, a normal query is fine
+
+
 ## Integrate Retrofit and Room| 2020 - 11 - 03 / Tues. Nov. 3rd, 2020
 * Will try to make an api service class through the ``` public static <S> S createService(Class<S> serviceClass) ``` way
   * NOTE: I discovered that you can't reqassign a variable inside the file class, you need to create another method/class to do anything.
