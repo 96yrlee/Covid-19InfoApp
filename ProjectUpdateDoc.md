@@ -1,7 +1,31 @@
 # Project Update & Current Status
 Here I will document what has been created/done.
 
-## Testing Room Pt.2| 2020 - 11 - 02 / Sun Nov. 2nd, 2020
+## Integrate Retrofit and Room| 2020 - 11 - 03 / Tues. Nov. 3rd, 2020
+* Will try to make an api service class through the ``` public static <S> S createService(Class<S> serviceClass) ``` way
+  * NOTE: I discovered that you can't reqassign a variable inside the file class, you need to create another method/class to do anything.
+  * so the OkHTTP logging interceptor, I made it into a class that returns an OkClient thingy
+  * IT WORKS
+  
+I need to figure out the logic for getting webservice data, showing, and saving
+* Global is always shown; Countries can be added to be seen via a search
+* Currently I use One recyclerView and One List to show all items
+  * if I keep using one RV and list, then I use getAllDatedZones(String date) to get a list of zones with the current date
+  * but how to I see if I get all the requested zones as well?
+* THEREFORE I need to send to this getZoneObjects method a list of zones names + the wanted date
+* so this method is called, asking for the list of zonesNames + date
+* for (each [] of zoneNamesList)
+  *  I check the database with getSpecificDatedZones(String zoneName, String date), zoneNAme is pulled from []zonenameList
+  *  If (database doesn't have the zone AND date)
+  *  THEN call retrofit to get the data (get all or country), and save(insert) the data in room
+  *  If it does have the speified zone +date, then it skips the IF{} stuff calling retrofit and goes to the NEXT FOR LOOP
+*  After the for loop ensure all zones + date exist, query room to get the zone object via getAllDatedZones(String date)
+* ultimatly, I will return a list of zone objects to view
+* NOTE: I will also incorporate jetpack's example of a refresh rate. Instead of one day, I will use 1 hr.
+
+I also need to find out how to save the date automatically
+
+## Testing Room Pt.2| 2020 - 11 - 02 / Mon Nov. 2nd, 2020
 *  incountered an SQLite issue, where it asked me to increae the ver num each time i updated the emulator
   * but since i'm in testing, I just changed ```android:allowBackup="false"``` in the manifest and uninstalled from emulator
   * might have to see how this works later tho...
@@ -37,7 +61,6 @@ LOGIC for daily, for each zone (country or global):
 1) call retrofit get for today's stats
 2) after getting the response data, save it into database
 3) ensure viewholder pulls from database
-
 
 
 ## Testing Room | 2020 - 11 - 01 / Sun Nov. 1st, 2020
