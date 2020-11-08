@@ -1,6 +1,35 @@
 # Project Update & Current Status
 Here I will document what has been created/done.
 
+## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Friday Nov. 7th, 2020
+* succesfully create the new day and need to update booleans
+* failed to get viewmodel to update
+  * eventually, I painfully learned that, for some reason, I cannot make inner methods to clean up the code
+  * when I tried to make the retrofit call it's own method
+  * then do an insert or update to it,
+  * for some reason, the webservice didn't fire off correctly
+  * So I first noticed my booleans weren't working, so I removed one. Then I got null reference on the zone from my inner class. I move it into the main refresh method and it works???
+  * trying booleans again:
+  * I now notice my booleans refered to the Dao and not my inner executer threaded ones, so gonna test all this again.
+  * ok, i noticed that my boolean pulls were all LiveData<zone> which apparently means its always NOT null. So I made a seperate date checker query to return a zone and switched the time checker too.
+ * BOOLEANS FINALLY WORK
+   * tested recentlyUpdated boolean and if bloc by changing the minusHours(2) to minusSeconds(5)
+ 
+ Minute UI Changes:
+ * reformat all nums to have commas
+ * alarm notification 
+   * changed to be a nav bar button
+   * added a timepicker so it can be set
+
+## RIP my week 3 marks| 2020 - 11 - 06 / Friday Nov. 6th, 2020
+
+I forgot to check my marks and that cost me. Markers were both harsh and wrong, so I didn't get passing marks.
+Needed to add unit test and espresso test - I barely understand them, beyond the simpliest. ViewMode, Room, Retrofit? beyond me.
+So I mainly tested to make sure they all created themselves corrected, and did a few click tests for the mainActivity.
+This time I also made a note that Retrofit was ok'd by the prof as a HTTP webservice handler we can use and get marked fully on.
+
+Hopefully someone reviews my stuff...
+
 ## Figuring Out LocalDate and LocalTime| 2020 - 11 - 04 and 05 / Wed. and Thurs Nov. 3rd/4th, 2020
 I got sucked into the elections, so I didn't work on this as much as I should have.
 
