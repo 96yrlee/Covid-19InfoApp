@@ -1,7 +1,15 @@
 # Project Update & Current Status
 Here I will document what has been created/done.
 
-## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Friday Nov. 7th, 2020
+## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Sat. Nov. 7th, 2020
+* ok, found out it didn't update my viewmodel
+  * after hours of grief, it was my liveAdaptor DIFF callback. I had it compare getID's. but since I delete as insurance... so now i use zoneName
+  * also, DAo. update doesn't work with it... so delete + insert it is!
+* gonna try to get countries added in
+  * relized my booleans only apply as long as there is just one... so a new country won't be in sync. tho, with both update and country using a delete + insert i shouldn't care. but this also brings up whether i should do a new day at all, if refresh is good enough... then again, refresh is also time base and doesn't consider time so nvrmind
+  * just wish i could put in another method askjdhskadj
+
+## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Sat. Nov. 7th, 2020
 * succesfully create the new day and need to update booleans
 * failed to get viewmodel to update
   * eventually, I painfully learned that, for some reason, I cannot make inner methods to clean up the code
