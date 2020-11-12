@@ -1,0 +1,6 @@
+com/example/covid19appretrotest/test/BuildConfig.java
+ com.example.covid19appretrotest.test.BuildConfig
+com/example/covid19appretrotest/mainActivityTests.java
+ com.example.covid19appretrotest.mainActivityTests
+com/example/covid19appretrotest/zoneActivityTests.java
+ com.example.covid19appretrotest.zoneActivityTests
