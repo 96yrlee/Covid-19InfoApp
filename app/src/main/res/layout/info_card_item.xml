@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="#E6E6E6"
+        android:weightSum="2">
+        app:la
+
+
+        <TextView
+            android:id="@+id/InfoCardZoneName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingStart="4dp"
+            android:text="InfoCard Zone Name"
+            android:textColor="@android:color/black"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/InfoCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="DD - MM - YYYY "
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/InfoCardZoneName"></TextView>
+
+        <TextView
+            android:id="@+id/dailyTextTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#C8E6E6"
+            android:paddingStart="8dp"
+            android:text="@string/daily_title"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/InfoCardDate"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/TotalTextTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#E6DCC8"
+            android:paddingStart="8dp"
+            android:text="@string/total_title"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/dailyTextTitle"
+            app:layout_constraintTop_toTopOf="@id/dailyTextTitle"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"></TextView>
+
+        <TextView
+            android:id="@+id/DailyStatsText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFC8E6E6"
+            android:padding="8dp"
+            android:text="Confirmed: 000 \nRecovered: 000 \nDead: 000"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dailyTextTitle"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintBottom_toBottomOf="@id/TotalStatsText">
+        </TextView>
+
+        <TextView
+            android:id="@+id/TotalStatsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFE6DCC8"
+            android:padding="8dp"
+            android:text="ttl Confirmed: 000 \nactive: 000 \nttl Recovered: 000 \nttl Dead: 000"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toRightOf="@id/DailyStatsText"
+            app:layout_constraintTop_toTopOf="@id/DailyStatsText"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"></TextView>
+
+        <TextView
+            android:id="@+id/InfoCardExtraText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/DailyStatsText"></TextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
