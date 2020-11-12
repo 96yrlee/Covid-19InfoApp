@@ -1,13 +1,70 @@
 # Project Update & Current Status
 Here I will document what has been created/done.
 
-## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Sat. Nov. 7th, 2020
+## Future work as of | 2020 - 11 - 11 / Wed. Nov. 11th, 2020
+
+* Add unit and auto tests
+  * it's important to learn how! QA is a thing!
+* Clean UI
+* Add more features mentioned before
+  * retrofit/room linked search activity
+  * offer past data queries
+  * show trends + graphs
+* check over content provider
+
+## ViewModel, Repository, Search Activity, and finish | 2020 - 11 - 09 & 10 / Mon. 9th and Tuesday 10th, Nov. 2020
+
+I can't recall what I did on monday and what for tuesday.
+
+* I cleaned up my repository method. My refresh user is now refresh global and refresh country, so it does global first (to always have it) then go through all countries already in the database and add them. 
+
+Search Activity:
+* I tried to query retrofit, add all to another room table, and try to connect that with a EditText+recycler search live update as you text. However, I could not figure out connecting the ViewModel and adaptor to the activity so that it doesn't use live data. 
+* My idea is that I would call retrofit once a day, and fill the room. Then i would query the room to get all the country names + total cases.
+* However, the editext search methods requires that you have the OG list of object and a new list of objects created each time the user changes the EditText. 
+* I couldn't figure out how to query room, to get that list of countries and then create a new list live.
+* Also, doing the retrofit call was immensely slow. 230+ countries and all their data is not small.
+
+So, I scapped using room, and just made a pre-loaded class of all countries + their iso IDs
+* the acitivty would call this call to create the list of names, then use it as the base to editText live filter and create a new list to show on the recyclerView
+
+New issue, the position would refer to the old list when clicked, and thus never actually give what the user searched and clicked
+* I fixed this via the adaptor. Had to give it the new list instead for the onClick method to get the proper object and thus name
+
+Finally, I changed the activity to return a result, and MainActivity to call this search for startActivityForResult.
+* Work perfectly, return the data I wanted.
+
+I then created the insert country method
+* I used viewmodel, which itself called the repo to insert a zone with the country name. This involed a retrofit call to get the data, then insert into Room.
+* Had some wonkiness with inserting multiples, due to the LiveAdaptor and playing aorund with ZoneName or ID for checking same, but I stuck with ZoneName as the primarykey.
+* Also had weirdness with it not staying when I destory the activity, same fix as above^
+
+Next, added swipe to delete. Similar as above, Viewmodel -> repo calling deleteZone on Dao.
+
+Next, filling out ZoneActivity
+* near identicle to main, but without bells and whistels of alarm, search, etc
+* just a recycler view item list, but the item_Card had some xtra info (i.e. population and test numbers)
+
+I also remembered, to add int eh manifest, that these activities were children to Main, so back buttons were added to their Main bar.
+
+Finally, I added a content provider. Instead of ulling from SQLDatabseHelper and contract, it pulls from the Room libraries (dao + entity classes) to do its methods. It was hellish, since I used CountryZone as the primary key and not a num of anysort
+* I eventually figured, that the uri to my room would likely use my countryZone to append the uri of the table, so I found and made a method to add my countryZone name to the end of the uri.
+* With that method, I also had to figure out how to get the zone name and zone for query, delete and update, but eventually I got it all. 
+* However, I'm not entirely sure if it works.
+* I also had to manually append each variable in the zone entity class to note its column name for the provider, and create it's special constructor. It was very painful.
+
+In the end, my app works! It only provides current stats, and does no data analysis or offer past info, but it works good!
+
+My only issue is how it does animations and updates the UI. I suspect I may need to change the layout file from constraint to something else. I also need to clean up a few toasts.
+
+## Merging Room + Retrofit in Repository| 2020 - 11 - 08 / Sun. Nov. 8th, 2020
 * ok, found out it didn't update my viewmodel
   * after hours of grief, it was my liveAdaptor DIFF callback. I had it compare getID's. but since I delete as insurance... so now i use zoneName
   * also, DAo. update doesn't work with it... so delete + insert it is!
 * gonna try to get countries added in
   * relized my booleans only apply as long as there is just one... so a new country won't be in sync. tho, with both update and country using a delete + insert i shouldn't care. but this also brings up whether i should do a new day at all, if refresh is good enough... then again, refresh is also time base and doesn't consider time so nvrmind
   * just wish i could put in another method askjdhskadj
+* Eventually, I changed my DIFF method in my LiveAdaptor. I used ID to identify same items. I changed that to use country/zone name instead. I then completeply removed zone ID from the Room db methods. I also removed checking for new day, and delets+insert to update query. This fixed my viewmodel refresh/live upate issue.
 
 ## Merging Room + Retrofit in Repository| 2020 - 11 - 07 / Sat. Nov. 7th, 2020
 * succesfully create the new day and need to update booleans
